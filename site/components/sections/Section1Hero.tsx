@@ -13,9 +13,9 @@ export function Section1Hero() {
   });
 
   // Background image holds position as the section scrolls away. Bigger
-  // drift = bg holds longer, so foreground words appear to slide up faster.
-  // 13.8% → 17.94% (+30%).
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "17.94%"]);
+  // drift = bg holds longer, so foreground words and the next section
+  // appear to slide up faster relative to the held bg.
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
 
   return (
     <section
