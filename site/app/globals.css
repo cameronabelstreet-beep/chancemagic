@@ -2,27 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Boldonse";
+  src: url("/fonts/Boldonse-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --surface: #131411;
-  --surface-dim: #131411;
-  --surface-bright: #3a3936;
-  --surface-container-lowest: #0e0e0c;
-  --surface-container-low: #1c1c19;
-  --surface-container: #20201d;
-  --surface-container-high: #2a2a27;
-  --surface-container-highest: #353532;
-  --on-surface: #e5e2dd;
-  --on-surface-variant: #c4c7c7;
-  --outline: #8e9192;
-  --outline-variant: #444748;
-  --primary: #c9c6c5;
-  --on-primary: #313030;
-  --tertiary: #ff8a82;
-  --on-tertiary: #5a0005;
-  --tertiary-container: #1a0001;
-  --on-tertiary-container: #c9252d;
-  --background: #131411;
-  --on-background: #e5e2dd;
+  --background: #050B1E;
+  --surface: #193060;
+  --surface-mid: #315381;
+  --accent: #859FC0;
+  --accent-light: #CEE0F4;
+  --on-background: #CEE0F4;
+  --on-surface: #859FC0;
+  --glow: #859FC0;
 }
 
 html,
@@ -40,8 +36,8 @@ body {
 }
 
 ::selection {
-  background: rgba(201, 37, 45, 0.35);
-  color: var(--on-surface);
+  background: rgba(133, 159, 192, 0.35);
+  color: var(--accent-light);
 }
 
 @layer utilities {
@@ -50,17 +46,24 @@ body {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      var(--primary) 50%,
+      var(--surface-mid) 50%,
       transparent 100%
     );
-    opacity: 0.3;
   }
 
-  .crimson-glow {
-    box-shadow: 0 0 40px rgba(201, 37, 45, 0.18);
+  .accent-glow {
+    box-shadow: 0 0 40px rgba(133, 159, 192, 0.12);
   }
 
-  .crimson-glow-strong {
-    box-shadow: 0 0 48px rgba(201, 37, 45, 0.28);
+  .accent-glow-strong {
+    box-shadow: 0 0 48px rgba(133, 159, 192, 0.22);
   }
+}
+
+/* Boldonse usage rules — apply uppercase + tight tracking automatically.
+   Defined OUTSIDE any @layer so it merges with Tailwind's font-display utility.
+   Per design system: do not specify font-weight (400 is the only weight). */
+.font-display {
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }

@@ -13,9 +13,9 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-on-tertiary-container text-on-surface crimson-glow hover:crimson-glow-strong hover:brightness-110",
+    "bg-surface-mid text-on-background accent-glow hover:bg-surface hover:border hover:border-accent hover:accent-glow-strong",
   secondary:
-    "bg-transparent text-on-surface border border-primary/70 hover:border-primary hover:border-2 hover:py-[13px] hover:px-[27px]",
+    "bg-transparent text-on-background border border-accent hover:border-2 hover:py-[13px] hover:px-[27px]",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

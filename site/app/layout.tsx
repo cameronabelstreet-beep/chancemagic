@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
-import { Noto_Serif, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { Nav } from "@/components/layout/Nav";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import "./globals.css";
-
-const notoSerif = Noto_Serif({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-noto-serif",
-  display: "swap",
-});
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -31,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${notoSerif.variable} ${manrope.variable}`}>
+    <html lang="en" className={manrope.variable}>
       <body className="font-sans bg-background text-on-background">
         <SmoothScroll />
         <Nav />

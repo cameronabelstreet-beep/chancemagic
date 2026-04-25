@@ -19,14 +19,19 @@ export function Nav() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out",
         scrolled
-          ? "backdrop-blur-xl bg-background/70 border-b border-primary/15"
+          ? "backdrop-blur-xl border-b border-surface-mid"
           : "backdrop-blur-0 bg-transparent border-b border-transparent"
       )}
+      style={
+        scrolled
+          ? { backgroundColor: "rgba(5, 11, 30, 0.75)" }
+          : undefined
+      }
     >
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-8 md:px-16">
         <a
           href="#hero"
-          className="font-serif text-[20px] font-semibold tracking-[0.18em] uppercase text-on-surface"
+          className="font-display text-[20px] text-on-background"
         >
           Ray Chance
         </a>
@@ -64,7 +69,7 @@ function NavLink({
   return (
     <a
       href={href}
-      className="font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+      className="font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-on-surface hover:text-on-background transition-colors duration-200"
     >
       {children}
     </a>
