@@ -4,6 +4,7 @@ import { Section3About } from "@/components/sections/Section3About";
 import { Section4Services } from "@/components/sections/Section4Services";
 import { Section5VideoReel } from "@/components/sections/Section5VideoReel";
 import { Section6Gallery } from "@/components/sections/Section6Gallery";
+import { Section7Testimonials } from "@/components/sections/Section7Testimonials";
 
 export default function Home() {
   return (
@@ -14,16 +15,7 @@ export default function Home() {
       <Section4Services />
       <Section5VideoReel />
       <Section6Gallery />
-
-      {/* Section 7 — Testimonials (placeholder) */}
-      <section
-        id="testimonials"
-        className="bg-surface py-32 text-center"
-      >
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 7 — Testimonials (placeholder)
-        </p>
-      </section>
+      <Section7Testimonials />
 
       {/* Section 8 — Client logos (placeholder) */}
       <section id="clients" className="py-32 text-center">
