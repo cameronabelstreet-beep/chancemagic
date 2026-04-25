@@ -1,32 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 80);
+  });
 
   return (
-    <header
+    <motion.header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-out",
         scrolled
-          ? "backdrop-blur-xl border-b border-surface-mid"
-          : "backdrop-blur-0 bg-transparent border-b border-transparent"
+          ? "border-b border-surface-mid"
+          : "border-b border-transparent"
       )}
-      style={
-        scrolled
-          ? { backgroundColor: "rgba(5, 11, 30, 0.75)" }
-          : undefined
-      }
+      style={{
+        backgroundColor: scrolled ? "rgba(5, 11, 30, 0.85)" : "transparent",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
+      }}
     >
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-8 md:px-16">
         <a
@@ -36,7 +35,7 @@ export function Nav() {
           Ray Chance
         </a>
 
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden items-center gap-10 md:flex">
           <NavLink href="#about">About</NavLink>
           <NavLink href="#services">Services</NavLink>
           <NavLink href="#gallery">Gallery</NavLink>
@@ -55,7 +54,7 @@ export function Nav() {
           Book Ray
         </Button>
       </div>
-    </header>
+    </motion.header>
   );
 }
 
@@ -69,7 +68,7 @@ function NavLink({
   return (
     <a
       href={href}
-      className="font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-on-surface hover:text-on-background transition-colors duration-200"
+      className="font-sans text-[12px] font-semibold uppercase tracking-[0.08em] text-on-surface transition-colors duration-200 hover:text-on-background"
     >
       {children}
     </a>

@@ -1,23 +1,9 @@
-// Section 1 (Hero) is built and lives in
-// [components/sections/Section1Hero.tsx](../components/sections/Section1Hero.tsx).
-// It is intentionally NOT mounted here while the user verifies the pre-flight
-// baseline (blank dark canvas + glass nav). To re-enable the hero, uncomment
-// the import and replace the Section 1 placeholder below.
-//
-// import { Section1Hero } from "@/components/sections/Section1Hero";
+import { Section1Hero } from "@/components/sections/Section1Hero";
 
 export default function Home() {
   return (
     <main>
-      {/* Section 1 — Hero (placeholder while baseline is verified) */}
-      <section
-        id="hero"
-        className="flex min-h-screen items-center justify-center text-center"
-      >
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 1 — Hero (placeholder)
-        </p>
-      </section>
+      <Section1Hero />
 
       {/* Section 2 — Logo bar (placeholder) */}
       <section

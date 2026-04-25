@@ -1,70 +1,42 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Floating, {
   FloatingElement,
 } from "@/components/animations/parallax-floating-cards";
-import { HeroBackground } from "@/components/animations/HeroBackground";
-import { Button } from "@/components/ui/Button";
+import { Marquee } from "@/components/animations/text-banner-slider";
+
+const CLIENT_NAMES = [
+  "COCA-COLA",
+  "DISNEY",
+  "AMAZON",
+  "ROGERS",
+  "MICROSOFT",
+  "PORSCHE",
+  "MLSE",
+];
+
+const CARD_SRC = "/images/individual-card.jpg";
 
 type CardSpec = {
   depth: number;
-  src: "/images/individual-card-1.jpg" | "/images/individual-card-2.jpg";
-  position: string;
   rotate: number;
-  opacity?: number;
+  // Tailwind position class string (top/left or top/right). Must be literal
+  // — Tailwind cannot pick up dynamically built class names.
+  positionClass: string;
 };
 
-const DEEP_CARDS: CardSpec[] = [
-  {
-    depth: -0.5,
-    src: "/images/individual-card-2.jpg",
-    position: "top-[8%] left-[20%] w-[170px] h-[238px]",
-    rotate: 24,
-    opacity: 0.55,
-  },
-  {
-    depth: -1,
-    src: "/images/individual-card-1.jpg",
-    position: "top-[10%] right-[22%] w-[160px] h-[224px]",
-    rotate: -22,
-    opacity: 0.5,
-  },
+const LEFT_CARDS: CardSpec[] = [
+  { depth: 1.8, rotate: -15, positionClass: "top-[15%] left-[3%]" },
+  { depth: -1.2, rotate: -25, positionClass: "top-[55%] left-[8%]" },
 ];
 
-const NEAR_CARDS: CardSpec[] = [
-  {
-    depth: 1,
-    src: "/images/individual-card-1.jpg",
-    position: "top-[18%] left-[3%] w-[230px] h-[322px]",
-    rotate: -12,
-    opacity: 0.95,
-  },
-  {
-    depth: 1.5,
-    src: "/images/individual-card-2.jpg",
-    position: "top-[56%] left-[7%] w-[200px] h-[280px]",
-    rotate: 14,
-    opacity: 0.92,
-  },
-  {
-    depth: 0.8,
-    src: "/images/individual-card-2.jpg",
-    position: "top-[22%] right-[3%] w-[250px] h-[350px]",
-    rotate: 8,
-    opacity: 0.95,
-  },
-  {
-    depth: 2,
-    src: "/images/individual-card-1.jpg",
-    position: "top-[60%] right-[9%] w-[215px] h-[300px]",
-    rotate: -16,
-    opacity: 0.95,
-  },
+const RIGHT_CARDS: CardSpec[] = [
+  { depth: 1.2, rotate: 12, positionClass: "top-[8%] right-[5%]" },
+  { depth: -1.8, rotate: 20, positionClass: "top-[35%] right-[2%]" },
+  { depth: 1.6, rotate: -8, positionClass: "top-[62%] right-[9%]" },
 ];
 
 export function Section1Hero() {
@@ -74,214 +46,154 @@ export function Section1Hero() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const cardsOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-  const haloOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const shaderOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.6,
-        },
-      });
-
-      const layers = [
-        { layer: "1", yPercent: 70 },
-        { layer: "2", yPercent: 50 },
-        { layer: "3", yPercent: 32 },
-        { layer: "4", yPercent: 8 },
-      ];
-
-      layers.forEach((l, idx) => {
-        tl.to(
-          section.querySelectorAll(`[data-parallax-layer="${l.layer}"]`),
-          { yPercent: l.yPercent, ease: "none" },
-          idx === 0 ? undefined : "<"
-        );
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+  // Cards fade out across the first 20% of section scroll progress.
+  const cardsOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  // Ray's photo: small downward drift "holds" him as the section scrolls
+  // away. parallax-hero default for the closest layer is yPercent: 10 — +20%
+  // per spec = 12.
+  const rayY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
 
   return (
     <section
       id="hero"
       ref={sectionRef}
-      data-parallax-layers
-      className="relative min-h-screen w-full overflow-hidden bg-background"
+      className="relative min-h-screen w-full overflow-hidden"
+      style={{ backgroundColor: "#050B1E" }}
     >
-      {/* Layer 0 — silver shader background (locked to section, fades on scroll) */}
-      <motion.div
-        aria-hidden
-        style={{ opacity: shaderOpacity }}
-        className="pointer-events-none absolute inset-0 z-0"
-      >
-        <HeroBackground className="absolute inset-0" />
-      </motion.div>
-
-      {/* Layer 1 — focused spotlight halo on top of shader */}
-      <motion.div
-        aria-hidden
-        data-parallax-layer="1"
-        style={{ opacity: haloOpacity }}
-        className="pointer-events-none absolute inset-0 z-[5]"
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 55% at 50% 60%, rgba(133,159,192,0.18) 0%, rgba(133,159,192,0.06) 38%, transparent 70%)",
-          }}
-        />
-      </motion.div>
-
-      {/* Floating cards — single mouse-parallax context, split into 2 scroll-parallax layers */}
-      <motion.div
-        aria-hidden
-        style={{ opacity: cardsOpacity }}
-        className="pointer-events-none absolute inset-0 z-10"
-      >
-        <Floating sensitivity={1} easingFactor={0.05}>
-          <div data-parallax-layer="2" className="absolute inset-0">
-            {DEEP_CARDS.map((card, i) => (
-              <FloatingElement
-                key={`deep-${i}`}
-                depth={card.depth}
-                className={card.position}
-              >
-                <CardImage spec={card} />
-              </FloatingElement>
-            ))}
-          </div>
-          <div data-parallax-layer="3" className="absolute inset-0">
-            {NEAR_CARDS.map((card, i) => (
-              <FloatingElement
-                key={`near-${i}`}
-                depth={card.depth}
-                className={card.position}
-              >
-                <CardImage spec={card} />
-              </FloatingElement>
-            ))}
-          </div>
-        </Floating>
-      </motion.div>
-
-      {/* Vignette — bleeds card edges into background */}
+      {/* Layer 1 — background spotlight (radial gradient over #050B1E base) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-20"
+        className="pointer-events-none absolute inset-0"
         style={{
+          zIndex: 0,
           background:
-            "radial-gradient(ellipse 80% 80% at center, transparent 32%, rgba(5,11,30,0.65) 72%, var(--background) 100%)",
+            "radial-gradient(ellipse at 50% 55%, rgba(133, 159, 192, 0.22) 0%, rgba(49, 83, 129, 0.08) 40%, transparent 70%)",
         }}
       />
 
-      {/* Focal column. Portrait is OUTSIDE layer 4 — locked to section.
-          Title and tagline/CTAs are inside layer 4 — barely shift on scroll. */}
-      <div className="relative z-30 flex min-h-screen flex-col items-center justify-center px-8 py-20 text-center">
-        <div data-parallax-layer="4" className="flex flex-col items-center">
-          <h1 className="font-display text-[52px] sm:text-[64px] md:text-[72px] leading-[1.05] text-on-background">
-            RAY CHANCE
-          </h1>
-          <div className="atmospheric-divider mt-7 w-48" />
-        </div>
+      {/* Layer 2a — sliding marquee text (vertical center, behind Ray) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2"
+        style={{ zIndex: 10 }}
+      >
+        <Marquee duration={35} direction="left" fade={false}>
+          <BrandStrip />
+        </Marquee>
+      </div>
 
-        {/* Portrait — STATIC. New asset is a brushstroke composition; let it bleed naturally. */}
-        <div className="relative my-6 h-[360px] w-[560px] sm:h-[420px] sm:w-[680px] md:h-[460px] md:w-[760px] max-w-[92vw]">
+      {/* Layer 2b — floating playing cards */}
+      <motion.div
+        aria-hidden
+        style={{ opacity: cardsOpacity, zIndex: 15 }}
+        className="pointer-events-none absolute inset-0"
+      >
+        <Floating sensitivity={0.12} easingFactor={0.04}>
+          {LEFT_CARDS.map((card, i) => (
+            <FloatingElement
+              key={`left-${i}`}
+              depth={card.depth}
+              className={card.positionClass}
+            >
+              <Card rotate={card.rotate} />
+            </FloatingElement>
+          ))}
+          {RIGHT_CARDS.map((card, i) => (
+            <FloatingElement
+              key={`right-${i}`}
+              depth={card.depth}
+              className={card.positionClass}
+            >
+              <Card rotate={card.rotate} />
+            </FloatingElement>
+          ))}
+        </Floating>
+      </motion.div>
+
+      {/* Layer 3a — Ray's photo (parallax, centered, bottom-aligned) */}
+      <motion.div
+        style={{ y: rayY, zIndex: 20 }}
+        className="pointer-events-none absolute bottom-0 left-1/2 flex -translate-x-1/2 items-end justify-center"
+      >
+        <div className="relative h-[95vh] w-[min(100vw,1000px)]">
           <Image
-            src="/images/ray-chance-portrait-2.png"
+            src="/images/ray-chance-portrait.avif"
             alt="Ray Chance"
             fill
             priority
-            sizes="(min-width: 768px) 760px, (min-width: 640px) 680px, 92vw"
-            className="object-contain"
-            style={{
-              filter: "saturate(0.92) contrast(1.04)",
-            }}
+            sizes="(min-width: 1024px) 1000px, 100vw"
+            className="object-contain object-bottom"
           />
         </div>
+      </motion.div>
 
-        <div data-parallax-layer="4" className="flex flex-col items-center">
-          <p className="max-w-xl font-sans text-body-lg text-on-surface">
-            Illusionist. Mentalist. Unforgettable.
-          </p>
-
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:gap-6">
-            <Button
-              variant="primary"
-              onClick={() =>
-                document
-                  .getElementById("book")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Book Ray
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() =>
-                document
-                  .getElementById("video")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Watch the Show
-            </Button>
-          </div>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <ScrollCue />
-        </div>
-      </div>
+      {/* Layer 3b — split headline at bottom: CHANCE (left) / MAGIC (right).
+          Each word is absolutely positioned to its edge so the photo can
+          carve the middle and the words sit flush with the viewport sides. */}
+      <span
+        className="font-display pointer-events-none absolute bottom-0 left-0 block leading-[0.9]"
+        style={{
+          zIndex: 25,
+          fontSize: "clamp(30px, 9vw, 132px)",
+          color: "#CEE0F4",
+        }}
+      >
+        CHANCE
+      </span>
+      <span
+        className="font-display pointer-events-none absolute bottom-0 right-0 block leading-[0.9]"
+        style={{
+          zIndex: 25,
+          fontSize: "clamp(30px, 9vw, 132px)",
+          color: "#CEE0F4",
+        }}
+      >
+        MAGIC
+      </span>
     </section>
   );
 }
 
-function CardImage({ spec }: { spec: CardSpec }) {
+function BrandStrip() {
   return (
     <div
-      className="relative h-full w-full overflow-hidden rounded-card border border-surface-mid"
+      className="flex shrink-0 items-center whitespace-nowrap font-sans uppercase"
       style={{
-        transform: `rotate(${spec.rotate}deg)`,
-        opacity: spec.opacity ?? 1,
+        color: "#315381",
+        fontWeight: 600,
+        letterSpacing: "0.15em",
+        fontSize: "clamp(13px, 1.4vw, 16px)",
       }}
     >
-      <Image
-        src={spec.src}
-        alt=""
-        fill
-        sizes="260px"
-        className="object-cover"
-        style={{
-          filter: "saturate(0.85) brightness(0.92)",
-        }}
-      />
+      {CLIENT_NAMES.map((name) => (
+        <span key={name} className="flex items-center">
+          <span className="px-8">{name}</span>
+          <span style={{ color: "#859FC0" }}>◆</span>
+          <span className="px-8" aria-hidden />
+        </span>
+      ))}
     </div>
   );
 }
 
-function ScrollCue() {
+function Card({ rotate }: { rotate: number }) {
   return (
-    <div className="flex flex-col items-center gap-3 opacity-60">
-      <span className="font-sans text-label-sm text-on-surface">
-        Scroll
-      </span>
-      <motion.div
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="h-8 w-px bg-accent/60"
+    <div
+      className="relative overflow-hidden rounded-card"
+      style={{
+        width: "clamp(64px, 9vw, 120px)",
+        aspectRatio: "573 / 1024",
+        transform: `rotate(${rotate}deg)`,
+        filter: "brightness(0.9) saturate(1.1)",
+      }}
+    >
+      <Image
+        src={CARD_SRC}
+        alt=""
+        fill
+        sizes="130px"
+        className="object-cover"
       />
     </div>
   );
