@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: #131411;
+  --surface-dim: #131411;
+  --surface-bright: #3a3936;
+  --surface-container-lowest: #0e0e0c;
+  --surface-container-low: #1c1c19;
+  --surface-container: #20201d;
+  --surface-container-high: #2a2a27;
+  --surface-container-highest: #353532;
+  --on-surface: #e5e2dd;
+  --on-surface-variant: #c4c7c7;
+  --outline: #8e9192;
+  --outline-variant: #444748;
+  --primary: #c9c6c5;
+  --on-primary: #313030;
+  --tertiary: #ff8a82;
+  --on-tertiary: #5a0005;
+  --tertiary-container: #1a0001;
+  --on-tertiary-container: #c9252d;
+  --background: #131411;
+  --on-background: #e5e2dd;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--on-background);
+  font-feature-settings: "ss01", "liga", "kern";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(201, 37, 45, 0.35);
+  color: var(--on-surface);
+}
+
+@layer utilities {
+  .atmospheric-divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--primary) 50%,
+      transparent 100%
+    );
+    opacity: 0.3;
+  }
+
+  .crimson-glow {
+    box-shadow: 0 0 40px rgba(201, 37, 45, 0.18);
+  }
+
+  .crimson-glow-strong {
+    box-shadow: 0 0 48px rgba(201, 37, 45, 0.28);
+  }
+}
