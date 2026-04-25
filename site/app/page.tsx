@@ -6,6 +6,7 @@ import { Section5VideoReel } from "@/components/sections/Section5VideoReel";
 import { Section6Gallery } from "@/components/sections/Section6Gallery";
 import { Section7Testimonials } from "@/components/sections/Section7Testimonials";
 import { Section8FAQ } from "@/components/sections/Section8FAQ";
+import { Section9BookingCTA } from "@/components/sections/Section9BookingCTA";
 
 export default function Home() {
   return (
@@ -18,16 +19,7 @@ export default function Home() {
       <Section6Gallery />
       <Section7Testimonials />
       <Section8FAQ />
-
-      {/* Section 9 — Booking CTA (placeholder) */}
-      <section
-        id="book"
-        className="bg-background py-32 text-center"
-      >
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 9 — Booking CTA (placeholder)
-        </p>
-      </section>
+      <Section9BookingCTA />
     </main>
   );
 }
