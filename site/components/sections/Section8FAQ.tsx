@@ -91,9 +91,9 @@ export function Section8FAQ() {
       />
 
       <div className="mx-auto max-w-[1400px] px-6 md:px-16">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-[2fr_3fr] md:gap-16 lg:gap-24">
-          {/* Left column — section label, headline, subline */}
-          <div ref={headerRef} className="flex flex-col">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-[3fr_2fr] md:gap-16 lg:gap-24">
+          {/* Right column on desktop — section label, headline, subline (rendered first on mobile) */}
+          <div ref={headerRef} className="flex flex-col md:order-2">
             <div className="space-y-6">
               {/* Section label */}
               <TextEffect
@@ -132,8 +132,8 @@ export function Section8FAQ() {
             </div>
           </div>
 
-          {/* Right column — accordion */}
-          <div>
+          {/* Left column on desktop — accordion */}
+          <div className="md:order-1">
             {faqs.map((faq) => {
               const isOpen = openId === faq.id;
               return (
