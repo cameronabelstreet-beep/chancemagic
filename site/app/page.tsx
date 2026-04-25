@@ -1,46 +1,17 @@
 import { Section1Hero } from "@/components/sections/Section1Hero";
+import { Section2LogoMarquee } from "@/components/sections/Section2LogoMarquee";
+import { Section3About } from "@/components/sections/Section3About";
+import { Section4Services } from "@/components/sections/Section4Services";
+import { Section5VideoReel } from "@/components/sections/Section5VideoReel";
 
 export default function Home() {
   return (
     <main>
       <Section1Hero />
-
-      {/* Section 2 — Logo bar (placeholder) */}
-      <section
-        id="logos-marquee"
-        className="border-t border-surface-mid/50 bg-background py-12 text-center"
-      >
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 2 — Logo bar (placeholder)
-        </p>
-      </section>
-
-      {/* Section 3 — About Ray (placeholder) */}
-      <section id="about" className="py-32 text-center">
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 3 — About Ray (placeholder)
-        </p>
-      </section>
-
-      {/* Section 4 — Services (placeholder) */}
-      <section
-        id="services"
-        className="bg-surface py-32 text-center"
-      >
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 4 — Services (placeholder)
-        </p>
-      </section>
-
-      {/* Section 5 — Video reel (placeholder) */}
-      <section
-        id="video"
-        className="bg-background py-32 text-center"
-      >
-        <p className="font-sans text-label-sm text-on-surface">
-          Section 5 — Video reel (placeholder)
-        </p>
-      </section>
+      <Section2LogoMarquee />
+      <Section3About />
+      <Section4Services />
+      <Section5VideoReel />
 
       {/* Section 6 — Gallery (placeholder) */}
       <section id="gallery" className="py-32 text-center">

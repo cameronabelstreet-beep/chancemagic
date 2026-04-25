@@ -12,9 +12,10 @@ export function Section1Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Background image holds position as the section scrolls away — drifts
-  // down 13.8% (parallax-hero closest layer + 15%).
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "13.8%"]);
+  // Background image holds position as the section scrolls away. Bigger
+  // drift = bg holds longer, so foreground words appear to slide up faster.
+  // 13.8% → 17.94% (+30%).
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "17.94%"]);
 
   return (
     <section

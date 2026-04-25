@@ -60,6 +60,20 @@ body {
   }
 }
 
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-x {
+  animation: marquee-x 50s linear infinite;
+  will-change: transform;
+}
+
 /* Boldonse usage rules — apply uppercase + tight tracking automatically.
    Defined OUTSIDE any @layer so it merges with Tailwind's font-display utility.
    Per design system: do not specify font-weight (400 is the only weight). */
